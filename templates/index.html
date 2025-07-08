@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binance Tracker V2 - Table View</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Binance Trending Coins Tracker</h1>
+            <div class="header-stats">
+                <span class="stat-item">
+                    <strong>Total Coins:</strong> <span id="totalCoins">0</span>
+                </span>
+                <span class="stat-item">
+                    <strong>Last Update:</strong> <span id="lastUpdate">Loading...</span>
+                </span>
+                <button id="refreshBtn" class="btn-refresh">⟳ Refresh</button>
+            </div>
+        </header>
+
+        <div class="filters">
+            <div class="filter-group">
+                <label for="minGrowth">Min Growth %:</label>
+                <input type="number" id="minGrowth" value="0" step="0.1">
+            </div>
+            <div class="filter-group">
+                <label for="searchSymbol">Search Symbol:</label>
+                <input type="text" id="searchSymbol" placeholder="e.g., BTC, ETH">
+            </div>
+            <div class="filter-group">
+                <label for="corrFilter">BTC Correlation:</label>
+                <select id="corrFilter">
+                    <option value="">All</option>
+                    <option value="high">High (>70%)</option>
+                    <option value="medium">Medium (30-70%)</option>
+                    <option value="low">Low (<30%)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="consistentFilter">
+                    <input type="checkbox" id="consistentFilter">
+                    Consistent Performers Only
+                </label>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="coinsTable" class="coins-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-column="symbol">Symbol</th>
+                        <th class="sortable" data-column="consistency">Consistency</th>
+                        <th class="sortable" data-column="price">Price</th>
+                        <th class="sortable" data-column="5m">5m</th>
+                        <th class="sortable" data-column="15m">15m</th>
+                        <th class="sortable" data-column="30m">30m</th>
+                        <th class="sortable" data-column="1h">1h</th>
+                        <th class="sortable" data-column="2h">2h</th>
+                        <th class="sortable" data-column="4h">4h</th>
+                        <th class="sortable" data-column="7h">7h</th>
+                        <th class="sortable" data-column="12h">12h</th>
+                        <th class="sortable active desc" data-column="overall_performance">Overall</th>
+                        <th class="sortable" data-column="btc_correlation">BTC Corr</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td colspan="14" class="loading">Loading data...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            <h3>Legend:</h3>
+            <span class="legend-item positive">Positive Growth</span>
+            <span class="legend-item negative">Negative Growth</span>
+            <span class="legend-item no-data">No Data</span>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
