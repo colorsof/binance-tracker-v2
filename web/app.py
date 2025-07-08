@@ -9,11 +9,10 @@ import time
 import logging
 from queue import Queue
 
-from config import (
+from config_cloud import (
     WEB_HOST, WEB_PORT, WEB_DEBUG, UPDATE_INTERVAL,
-    CLEANUP_INTERVAL, CACHE_TTL
+    CLEANUP_INTERVAL, CACHE_TTL, get_database
 )
-from core.database import Database
 from core.tracker import BinanceTracker
 
 logger = logging.getLogger(__name__)
@@ -22,7 +21,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__, 
             template_folder='../templates',
             static_folder='../static')
-db = Database()
+db = get_database()
 tracker = BinanceTracker(db)
 update_queue = Queue(maxsize=1)
 cache = {'data': [], 'last_update': None}
